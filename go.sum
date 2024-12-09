@@ -1,0 +1,4 @@
+github.com/jschaf/bibtex v0.0.0-20240701232004-21596c6b8e06 h1:kZRnLTVBDL8NDXy+CCL3WHnhjumtxDodEBDDTnf62EE=
+github.com/jschaf/bibtex v0.0.0-20240701232004-21596c6b8e06/go.mod h1:ROEnJFwI9yP/kNlwircmaSOErFAV30eCtinQd+HcjPs=
+github.com/yuin/goldmark v1.7.8 h1:iERMLn0/QJeHFhxSt3p6PeN9mGnvIKSpG9YYorDMnic=
+github.com/yuin/goldmark v1.7.8/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=
