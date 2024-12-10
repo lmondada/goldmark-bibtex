@@ -3,7 +3,9 @@ package bibtex
 import (
 	"fmt"
 
-	"github.com/jschaf/bibtex"
+	"github.com/lmondada/bibtex"
+	bibtexAst "github.com/lmondada/bibtex/ast"
+
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
@@ -39,19 +41,15 @@ func (r *CitationRenderer) renderCitation(w util.BufWriter, source []byte, node 
 	n := node.(*Citation)
 	entry, ok := r.bibliography[n.Key]
 	if !ok {
-		// Citation not found, render as is
-		_, _ = w.WriteString("[?")
-		_, _ = w.WriteString(n.Key)
-		_, _ = w.WriteString("]")
+		// Citation not found, render as question mark
+		_, _ = w.WriteString("[?]")
 		return ast.WalkContinue, nil
 	}
 
 	// Format the citation based on the entry type
 	switch entry.Type {
-	case bibtex.EntryArticle:
-		r.renderArticle(w, &entry)
-	case bibtex.EntryBook:
-		r.renderBook(w, &entry)
+	case bibtex.EntryArticle, bibtex.EntryInProceedings, bibtex.EntryBook:
+		r.renderAuthorYear(w, &entry)
 	default:
 		r.renderDefault(w, &entry)
 	}
@@ -59,24 +57,28 @@ func (r *CitationRenderer) renderCitation(w util.BufWriter, source []byte, node 
 	return ast.WalkContinue, nil
 }
 
-func (r *CitationRenderer) renderArticle(w util.BufWriter, entry *bibtex.Entry) {
+func fmtAuthorYear(authorsExpr, yearExpr bibtexAst.Expr) string {
+	authors := authorsExpr.(bibtexAst.Authors)
+	firstAuthor := authors[0]
+	lastName := firstAuthor.Last.(*bibtexAst.Text).Value
+	year := yearExpr.(*bibtexAst.Text).Value
+	return fmt.Sprintf("[%s, %s]", lastName, year)
+}
+
+func (r *CitationRenderer) renderAuthorYear(w util.BufWriter, entry *bibtex.Entry) {
 	authors := entry.Tags["author"]
 	year := entry.Tags["year"]
-	_, _ = w.WriteString("[")
-	_, _ = w.WriteString(fmt.Sprintf("%s, %s", authors, year))
-	_, _ = w.WriteString("]")
+	_, _ = w.WriteString(fmtAuthorYear(authors, year))
 }
 
 func (r *CitationRenderer) renderBook(w util.BufWriter, entry *bibtex.Entry) {
 	authors := entry.Tags["author"]
 	year := entry.Tags["year"]
-	_, _ = w.WriteString("[")
-	_, _ = w.WriteString(fmt.Sprintf("%s, %s", authors, year))
-	_, _ = w.WriteString("]")
+	_, _ = w.WriteString(fmtAuthorYear(authors, year))
 }
 
 func (r *CitationRenderer) renderDefault(w util.BufWriter, entry *bibtex.Entry) {
 	_, _ = w.WriteString("[")
-	_, _ = fmt.Fprintf(w, "%s", entry.Tags["title"])
+	_, _ = w.WriteString(entry.Tags["title"].(*bibtexAst.Text).Value)
 	_, _ = w.WriteString("]")
 }

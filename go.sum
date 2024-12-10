@@ -1,4 +1,8 @@
-github.com/jschaf/bibtex v0.0.0-20240701232004-21596c6b8e06 h1:kZRnLTVBDL8NDXy+CCL3WHnhjumtxDodEBDDTnf62EE=
-github.com/jschaf/bibtex v0.0.0-20240701232004-21596c6b8e06/go.mod h1:ROEnJFwI9yP/kNlwircmaSOErFAV30eCtinQd+HcjPs=
+github.com/lmondada/bibtex v0.0.0-20241210072906-f4e7c644ef2b h1:+NRB3188vwV1ySg2A50mqCrCN8a67xNKZIgzTaYuQhQ=
+github.com/lmondada/bibtex v0.0.0-20241210072906-f4e7c644ef2b/go.mod h1:mrropVAdbm7eZCyHUX1O70eryn5Dr/G/HLNhuqOEhTo=
+github.com/lmondada/bibtex v0.0.0-20241210075206-51f863a1e3e9 h1:81J5gCyC5jHjbBscRZEO5lfki+OBQT1aV6Fgu0mMDUE=
+github.com/lmondada/bibtex v0.0.0-20241210075206-51f863a1e3e9/go.mod h1:mrropVAdbm7eZCyHUX1O70eryn5Dr/G/HLNhuqOEhTo=
+github.com/lmondada/bibtex v0.0.0-20241210075729-c59940246a11 h1:CmzwPRN8w57kJZkLx/tRzQIpFSd36OTWJzwoeFUL700=
+github.com/lmondada/bibtex v0.0.0-20241210075729-c59940246a11/go.mod h1:mrropVAdbm7eZCyHUX1O70eryn5Dr/G/HLNhuqOEhTo=
 github.com/yuin/goldmark v1.7.8 h1:iERMLn0/QJeHFhxSt3p6PeN9mGnvIKSpG9YYorDMnic=
 github.com/yuin/goldmark v1.7.8/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=

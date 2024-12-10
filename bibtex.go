@@ -3,7 +3,7 @@ package bibtex
 import (
 	"os"
 
-	"github.com/jschaf/bibtex"
+	"github.com/lmondada/bibtex"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
