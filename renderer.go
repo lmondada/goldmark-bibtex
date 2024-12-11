@@ -49,6 +49,8 @@ func (r *CitationRenderer) Render(w util.BufWriter, source []byte, node ast.Node
 }
 
 func (r *CitationRenderer) renderCitation(w util.BufWriter, entry *bibtex.Entry) {
+	_, _ = w.WriteString(`<span class="citation">`)
 	_, _ = w.WriteString(apa.FormatCitationKey(entry))
 	_, _ = w.WriteString(apa.FormatCitation(entry))
+	_, _ = w.WriteString(`</span>`)
 }
