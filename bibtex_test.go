@@ -2,6 +2,7 @@ package bibtex
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -16,6 +17,8 @@ const testBibContent = `@InProceedings{Albert1989,
   title = {Average Case Complexity Analysis of {RETE} Pattern-Match Algorithm and Average Size of Join in Database},
   publisher = {Springer},
   year = {1989},
+  pages = {223--241},
+  booktitle = {Foundations of Software Technology and Theoretical Computer Science, Ninth Conference, Bangalore, India, December 19-21, 1989, Proceedings},
 }`
 
 func createTempBibFile(t *testing.T, content string) string {
@@ -64,8 +67,10 @@ func verifyBibliography(t *testing.T, bibExtender *Extender) {
 	}{
 		{"author", "Luc Albert"},
 		{"title", "Average Case Complexity Analysis of RETE Pattern-Match Algorithm and Average Size of Join in Database"},
+		{"booktitle", "Foundations of Software Technology and Theoretical Computer Science, Ninth Conference, Bangalore, India, December 19-21, 1989, Proceedings"},
 		{"publisher", "Springer"},
 		{"year", "1989"},
+		{"pages", "223--241"},
 	}
 
 	for _, tt := range tests {
@@ -104,7 +109,8 @@ func verifyMarkdownConversion(t *testing.T, bibExtender *Extender) {
 		t.Fatal(err)
 	}
 
-	expected := "<p>As shown in [Albert, 1989], the results are significant.</p>\n"
+	citationExp := `<span class="citation-key">Albert, 1989</span><span class="citation-full"><span class="author">Albert Luc</span> (1989). <span class="title">Average Case Complexity Analysis of RETE Pattern-Match Algorithm and Average Size of Join in Database</span>. In <span class="booktitle">Foundations of Software Technology and Theoretical Computer Science, Ninth Conference, Bangalore, India, December 19-21, 1989, Proceedings</span> (pp. <span class="pages">223--241</span>).</span>`
+	expected := fmt.Sprintf("<p>As shown in %s, the results are significant.</p>\n", citationExp)
 	if got := buf.String(); got != expected {
 		t.Errorf("Markdown conversion = %s; want %s", got, expected)
 	}

@@ -1,11 +1,8 @@
 package bibtex
 
 import (
-	"fmt"
-
 	"github.com/lmondada/bibtex"
-	bibtexAst "github.com/lmondada/bibtex/ast"
-
+	"github.com/lmondada/goldmark-bibtex/apa"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
@@ -30,10 +27,10 @@ func NewCitationRenderer(bib []bibtex.Entry) renderer.NodeRenderer {
 
 // RegisterFuncs implements renderer.NodeRenderer interface.
 func (r *CitationRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
-	reg.Register(CitationKind, r.renderCitation)
+	reg.Register(CitationKind, r.Render)
 }
 
-func (r *CitationRenderer) renderCitation(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *CitationRenderer) Render(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
 		return ast.WalkContinue, nil
 	}
@@ -46,39 +43,12 @@ func (r *CitationRenderer) renderCitation(w util.BufWriter, source []byte, node 
 		return ast.WalkContinue, nil
 	}
 
-	// Format the citation based on the entry type
-	switch entry.Type {
-	case bibtex.EntryArticle, bibtex.EntryInProceedings, bibtex.EntryBook:
-		r.renderAuthorYear(w, &entry)
-	default:
-		r.renderDefault(w, &entry)
-	}
+	r.renderCitation(w, &entry)
 
 	return ast.WalkContinue, nil
 }
 
-func fmtAuthorYear(authorsExpr, yearExpr bibtexAst.Expr) string {
-	authors := authorsExpr.(bibtexAst.Authors)
-	firstAuthor := authors[0]
-	lastName := firstAuthor.Last.(*bibtexAst.Text).Value
-	year := yearExpr.(*bibtexAst.Text).Value
-	return fmt.Sprintf("[%s, %s]", lastName, year)
-}
-
-func (r *CitationRenderer) renderAuthorYear(w util.BufWriter, entry *bibtex.Entry) {
-	authors := entry.Tags["author"]
-	year := entry.Tags["year"]
-	_, _ = w.WriteString(fmtAuthorYear(authors, year))
-}
-
-func (r *CitationRenderer) renderBook(w util.BufWriter, entry *bibtex.Entry) {
-	authors := entry.Tags["author"]
-	year := entry.Tags["year"]
-	_, _ = w.WriteString(fmtAuthorYear(authors, year))
-}
-
-func (r *CitationRenderer) renderDefault(w util.BufWriter, entry *bibtex.Entry) {
-	_, _ = w.WriteString("[")
-	_, _ = w.WriteString(entry.Tags["title"].(*bibtexAst.Text).Value)
-	_, _ = w.WriteString("]")
+func (r *CitationRenderer) renderCitation(w util.BufWriter, entry *bibtex.Entry) {
+	_, _ = w.WriteString(apa.FormatCitationKey(entry))
+	_, _ = w.WriteString(apa.FormatCitation(entry))
 }
