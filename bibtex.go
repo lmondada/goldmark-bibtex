@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/jschaf/bibtex"
+	bibparser "github.com/jschaf/bibtex/parser"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
@@ -33,6 +34,9 @@ func New(bibFile string) (*Extender, error) {
 			// RenderParsedTextResolver replaces ast.ParsedText with a simplified rendering
 			// of ast.Text.
 			bibtex.NewRenderParsedTextResolver(),
+		),
+		bibtex.WithParserMode(
+			bibparser.ParseStrings|bibparser.ParseComments,
 		),
 	)
 	file, err := bib.Parse(f)
