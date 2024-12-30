@@ -1,7 +1,7 @@
 package bibtex
 
 import (
-	"github.com/lmondada/bibtex"
+	"github.com/jschaf/bibtex"
 	"github.com/lmondada/goldmark-bibtex/apa"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"

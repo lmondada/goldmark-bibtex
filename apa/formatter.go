@@ -3,8 +3,8 @@ package apa
 import (
 	"fmt"
 
-	"github.com/lmondada/bibtex"
-	bibtexAst "github.com/lmondada/bibtex/ast"
+	"github.com/jschaf/bibtex"
+	bibtexAst "github.com/jschaf/bibtex/ast"
 )
 
 // FormatAuthors formats a list of authors according to APA style

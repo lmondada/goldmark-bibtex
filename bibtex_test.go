@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/lmondada/bibtex"
-	"github.com/lmondada/bibtex/ast"
+	"github.com/jschaf/bibtex"
+	"github.com/jschaf/bibtex/ast"
 	"github.com/yuin/goldmark"
 )
 
