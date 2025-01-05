@@ -89,7 +89,7 @@ func getBookRef(entry *bibtex.Entry) bookRef {
 
 func getArxivRef(entry *bibtex.Entry) arxivRef {
 	return arxivRef{
-		authors:      getFieldText(entry, "author"),
+		authors:      FormatAuthors(entry.Tags["author"].(bibtexAst.Authors)),
 		year:         getFieldText(entry, "year"),
 		title:        getFieldText(entry, "title"),
 		eprint:       getFieldText(entry, "eprint"),
@@ -99,7 +99,7 @@ func getArxivRef(entry *bibtex.Entry) arxivRef {
 
 func getDefaultRef(entry *bibtex.Entry) defaultRef {
 	return defaultRef{
-		authors:      getFieldText(entry, "author"),
+		authors:      FormatAuthors(entry.Tags["author"].(bibtexAst.Authors)),
 		year:         getFieldText(entry, "year"),
 		month:        getFieldText(entry, "month"),
 		title:        getFieldText(entry, "title"),
