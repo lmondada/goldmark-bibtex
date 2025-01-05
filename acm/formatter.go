@@ -57,7 +57,7 @@ func getArticleRef(entry *bibtex.Entry) articleRef {
 		volume:  getFieldText(entry, "volume"),
 		pages:   getFieldText(entry, "pages"),
 		doi:     getFieldText(entry, "doi"),
-		month:   getFieldText(entry, "month"),
+		month:   getMonth(entry),
 	}
 }
 
@@ -67,7 +67,7 @@ func getProceedingsRef(entry *bibtex.Entry) proceedingsRef {
 		year:      getFieldText(entry, "year"),
 		title:     getFieldText(entry, "title"),
 		booktitle: getFieldText(entry, "booktitle"),
-		month:     getFieldText(entry, "month"),
+		month:     getMonth(entry),
 		address:   getFieldText(entry, "address"),
 		pages:     getFieldText(entry, "pages"),
 		doi:       getFieldText(entry, "doi"),
@@ -101,7 +101,7 @@ func getDefaultRef(entry *bibtex.Entry) defaultRef {
 	return defaultRef{
 		authors:      FormatAuthors(entry.Tags["author"].(bibtexAst.Authors)),
 		year:         getFieldText(entry, "year"),
-		month:        getFieldText(entry, "month"),
+		month:        getMonth(entry),
 		title:        getFieldText(entry, "title"),
 		howpublished: getFieldText(entry, "howpublished"),
 		url:          getFieldText(entry, "url"),
@@ -326,6 +326,38 @@ func formatDefault(ref defaultRef) string {
 
 	citation += "</span>"
 	return citation
+}
+
+func getMonth(entry *bibtex.Entry) string {
+	month := entry.Tags["month"]
+
+	if month == nil {
+		return ""
+	}
+
+	identToMonth := map[interface{}]string{
+		"jan": "January",
+		"feb": "February",
+		"mar": "March",
+		"apr": "April",
+		"may": "May",
+		"jun": "June",
+		"jul": "July",
+		"aug": "August",
+		"sep": "Septempter",
+		"oct": "October",
+		"nov": "November",
+		"dec": "December",
+	}
+
+	switch ident := month.(type) {
+	case *bibtexAst.Ident:
+		return identToMonth[ident.Name]
+	case *bibtexAst.Text:
+		return ident.Value
+	default:
+		panic("cannot render month type")
+	}
 }
 
 // getFieldText safely gets the text of a BibTeX field
