@@ -149,7 +149,7 @@ type articleRef struct {
 // Example: Patricia S. Abril and Robert Plant. 2007. The patent holder's dilemma: Buy, sell, or troll? Commun. ACM 50, 1 (Jan. 2007), 36-44. https://doi.org/10.1145/1188913.1188915
 func formatArticle(article articleRef) string {
 	citation := fmt.Sprintf(
-		`<span class="citation">%s. %s. %s. <em>%s</em>`,
+		`<span class="citation-full">%s. %s. %s. <em>%s</em>`,
 		article.authors, article.year, article.title, article.journal,
 	)
 
@@ -197,7 +197,7 @@ type proceedingsRef struct {
 // formatProceedings formats a conference proceedings citation in ACM style
 // Example: Sten Andler. 1979. Predicate path expressions. In Proceedings of the 6th. ACM SIGACT-SIGPLAN Symposium on Principles of Programming Languages (POPL '79), January 29 - 31, 1979, San Antonio, Texas. ACM Inc., New York, NY, 226-236. https://doi.org/10.1145/567752.567774
 func formatProceedings(ref proceedingsRef) string {
-	citation := fmt.Sprintf(`<span class="citation">%s. %s. %s. In <em>%s</em>`,
+	citation := fmt.Sprintf(`<span class="citation-full">%s. %s. %s. In <em>%s</em>`,
 		ref.authors, ref.year, ref.title, ref.booktitle)
 
 	if ref.month != "" || ref.address != "" {
@@ -242,7 +242,7 @@ type bookRef struct {
 // formatBook formats a book citation in ACM style
 // Example: David Kosiur. 2001. Understanding Policy-Based Networking (2nd. ed.). Wiley, New York, NY.
 func formatBook(ref bookRef) string {
-	citation := fmt.Sprintf(`<span class="citation">%s. %s. <em>%s</em>`,
+	citation := fmt.Sprintf(`<span class="citation-full">%s. %s. <em>%s</em>`,
 		ref.authors, ref.year, ref.title)
 
 	if ref.edition != "" {
@@ -275,7 +275,7 @@ type arxivRef struct {
 // formatArxiv formats an arXiv paper citation in ACM style
 // Example: "Ali Javadi-Abhari et al. 2024. Quantum computing with Qiskit. arXiv: 2405.08810 [quant-ph]"
 func formatArxiv(ref arxivRef) string {
-	citation := fmt.Sprintf(`<span class="citation">%s. %s. %s`,
+	citation := fmt.Sprintf(`<span class="citation-full">%s. %s. %s`,
 		ref.authors, ref.year, ref.title)
 
 	if ref.eprint != "" {
@@ -303,7 +303,7 @@ type defaultRef struct {
 // This is a basic formatter that includes the essential elements of a citation:
 // authors, year, title, and URL/DOI if available
 func formatDefault(ref defaultRef) string {
-	citation := fmt.Sprintf(`<span class="citation">%s. %s. %s`,
+	citation := fmt.Sprintf(`<span class="citation-full">%s. %s. %s`,
 		ref.authors, ref.year, ref.title)
 
 	if ref.month != "" {
