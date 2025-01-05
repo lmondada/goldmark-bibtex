@@ -2,6 +2,7 @@ package bibtex
 
 import (
 	"github.com/jschaf/bibtex"
+	"github.com/lmondada/goldmark-bibtex/acm"
 	"github.com/lmondada/goldmark-bibtex/apa"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"
@@ -49,8 +50,9 @@ func (r *CitationRenderer) Render(w util.BufWriter, source []byte, node ast.Node
 }
 
 func (r *CitationRenderer) renderCitation(w util.BufWriter, entry *bibtex.Entry) {
+	// currently ACM, but with APA citation key style as ACM requires numbering
 	_, _ = w.WriteString(`<span class="citation">`)
 	_, _ = w.WriteString(apa.FormatCitationKey(entry))
-	_, _ = w.WriteString(apa.FormatCitation(entry))
+	_, _ = w.WriteString(acm.FormatCitation(entry))
 	_, _ = w.WriteString(`</span>`)
 }
