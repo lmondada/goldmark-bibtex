@@ -44,7 +44,7 @@ func FormatAuthors(authors bibtexAst.Authors) string {
 }
 
 func formatDoi(doi string) string {
-	return fmt.Sprintf(`doi: <a href="https://doi.org/%s">%s</a>`, doi, doi)
+	return fmt.Sprintf(`<span class="doi">doi: <a href="https://doi.org/%s">%s</a></span>`, doi, doi)
 }
 
 func getArticleRef(entry *bibtex.Entry) articleRef {
