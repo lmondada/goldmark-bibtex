@@ -31,7 +31,8 @@ func FormatCitationKey(entry *bibtex.Entry) string {
 	year := entry.Tags["year"].(*bibtexAst.Text)
 	firstAuthor := authors[0]
 	lastName := firstAuthor.Last.(*bibtexAst.Text).Value
-	return fmt.Sprintf(`<span class="citation-key">%s, %s</span>`,
+	return fmt.Sprintf(`<span data-bibtex-key="%s" class="citation-key">%s, %s</span>`,
+		entry.Key,
 		TrimLastName(lastName),
 		year.Value)
 }
