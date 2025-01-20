@@ -109,8 +109,8 @@ func verifyMarkdownConversion(t *testing.T, bibExtender *Extender) {
 		t.Fatal(err)
 	}
 
-	citationExp := `<span class="citation-key">Albert, 1989</span><span class="citation-full"><span class="author">Albert Luc</span> (1989). <span class="title">Average Case Complexity Analysis of RETE Pattern-Match Algorithm and Average Size of Join in Database</span>. In <span class="booktitle">Foundations of Software Technology and Theoretical Computer Science, Ninth Conference, Bangalore, India, December 19-21, 1989, Proceedings</span> (pp. <span class="pages">223--241</span>).</span>`
-	expected := fmt.Sprintf("<p>As shown in %s, the results are significant.</p>\n", citationExp)
+	citationExp := `<span class="citation-key">Albert, 1989</span><span class="citation-full"><span class="authors">Luc  Albert</span>. 1989. Average Case Complexity Analysis of RETE Pattern-Match Algorithm and Average Size of Join in Database. In <em>Foundations of Software Technology and Theoretical Computer Science, Ninth Conference, Bangalore, India, December 19-21, 1989, Proceedings</em>. Springer, 223--241. <span class="doi">doi: <a href="https://doi.org/10.1007/3-540-52048-1_46">10.1007/3-540-52048-1_46</a></span></span></span>`
+	expected := fmt.Sprintf(`<p>As shown in <span class="citation">%s<span />, the results are significant.</p>\n`, citationExp)
 	if got := buf.String(); got != expected {
 		t.Errorf("Markdown conversion = %s; want %s", got, expected)
 	}
