@@ -12,8 +12,9 @@ func FormatAuthor(author *bibtexAst.Author) (authorFmt string) {
 	authorFmt += author.First.(*bibtexAst.Text).Value
 	authorFmt += " "
 	authorFmt += author.Prefix.(*bibtexAst.Text).Value
-	authorFmt += " "
+	authorFmt += " <span class=\"last-name\">"
 	authorFmt += author.Last.(*bibtexAst.Text).Value
+	authorFmt += "</span>"
 	return
 }
 
@@ -108,6 +109,47 @@ func getDefaultRef(entry *bibtex.Entry) defaultRef {
 	}
 }
 
+type phdthesisRef struct {
+	authors string
+	year    string
+	title   string
+	school  string
+	address string
+	doi     string
+}
+
+// formatPhdthesis formats a PhD thesis citation in ACM style
+// Example: John Doe. 2023. Quantum Computing with Superconducting Qubits. PhD Thesis. Stanford University, Stanford, CA.
+func formatPhdthesis(ref phdthesisRef) string {
+	citation := fmt.Sprintf(`<span class="citation-full">%s. %s. %s. PhD Thesis`,
+		ref.authors, ref.year, ref.title)
+
+	if ref.school != "" {
+		citation += ". " + ref.school
+		if ref.address != "" {
+			citation += ", " + ref.address
+		}
+	}
+
+	if ref.doi != "" {
+		citation += fmt.Sprintf(". %s", formatDoi(ref.doi))
+	}
+
+	citation += "</span>"
+	return citation
+}
+
+func getPhdthesisRef(entry *bibtex.Entry) phdthesisRef {
+	return phdthesisRef{
+		authors: FormatAuthors(entry.Tags["author"].(bibtexAst.Authors)),
+		year:    getFieldText(entry, "year"),
+		title:   getFieldText(entry, "title"),
+		school:  getFieldText(entry, "school"),
+		address: getFieldText(entry, "address"),
+		doi:     getFieldText(entry, "doi"),
+	}
+}
+
 // FormatCitation formats a full citation in ACM style
 func FormatCitation(entry *bibtex.Entry) string {
 	archivePrefix := getFieldText(entry, "archiveprefix")
@@ -122,6 +164,9 @@ func FormatCitation(entry *bibtex.Entry) string {
 	case "book":
 		bookRef := getBookRef(entry)
 		return formatBook(bookRef)
+	case "phdthesis":
+		phdthesisRef := getPhdthesisRef(entry)
+		return formatPhdthesis(phdthesisRef)
 	default:
 		if !strings.EqualFold(archivePrefix, "arXiv") {
 			defaultRef := getDefaultRef(entry)
